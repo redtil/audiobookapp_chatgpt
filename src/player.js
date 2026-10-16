@@ -2,7 +2,9 @@
 // time of every sentence, fetched from the library and kept on the device
 // (Cache Storage) so chapters already heard play offline.
 
-const CACHE = "kokoro-reader-audio";
+import { STORAGE_PREFIX } from "./config.js";
+
+const CACHE = `${STORAGE_PREFIX}-audio`;
 
 export async function cached(sha, fetchBlob) {
   let cache = null;

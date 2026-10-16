@@ -2,7 +2,9 @@
 // and the books' text (so they open quickly and offline). The library itself
 // lives on the server; audio is cached separately (see player.js).
 
-const DB_NAME = "kokoro-reader-v2";
+import { STORAGE_PREFIX } from "./config.js";
+
+const DB_NAME = `${STORAGE_PREFIX}-v2`;
 
 let dbPromise = null;
 function db() {
@@ -60,7 +62,7 @@ function save(key, value) {
   } catch {}
 }
 
-export const loadSettings = () => load("kr2-settings", {});
-export const saveSettings = (s) => save("kr2-settings", s);
-export const loadLibrary = () => load("kr2-library", { books: {} });
-export const saveLibrary = (l) => save("kr2-library", l);
+export const loadSettings = () => load(`${STORAGE_PREFIX}-settings`, {});
+export const saveSettings = (s) => save(`${STORAGE_PREFIX}-settings`, s);
+export const loadLibrary = () => load(`${STORAGE_PREFIX}-library`, { books: {} });
+export const saveLibrary = (l) => save(`${STORAGE_PREFIX}-library`, l);

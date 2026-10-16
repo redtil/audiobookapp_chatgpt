@@ -3,3 +3,6 @@ dist
 public/ort
 public/model
 public/samples
+.env
+.env.*
+!.env.example

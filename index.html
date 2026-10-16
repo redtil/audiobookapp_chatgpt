@@ -7,19 +7,15 @@
     <meta name="theme-color" content="#16171b" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="referrer" content="no-referrer" />
-    <title>Kokoro Reader</title>
+    <title>Kokoro Reader · ChatGPT</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎧</text></svg>" />
     <link rel="stylesheet" href="./src/style.css" />
-    <script>
-      // Earlier versions installed a service worker; make sure it's gone.
-      navigator.serviceWorker?.getRegistrations?.().then((rs) => rs.forEach((r) => r.unregister())).catch(() => {});
-    </script>
   </head>
   <body>
     <!-- Connect (first time on a device) -->
     <section id="connect" class="screen narrow" hidden>
       <header class="lib-head">
-        <h1>Kokoro Reader</h1>
+        <h1>Kokoro Reader · ChatGPT</h1>
         <p class="muted">Your books, read aloud with a natural voice. Enter your library key to open your library on this device.</p>
       </header>
       <label class="field"><span>Library key</span>
@@ -36,8 +32,8 @@
         <summary>Setting up a library for the first time</summary>
         <p class="muted small">The library is kept in a private GitHub repository, and books are prepared on GitHub's machines, for free. One-time setup:</p>
         <ol class="muted small steps">
-          <li>Create a <strong>private</strong> repository named <strong>audiobook-data</strong> (tick “Add a README file”).</li>
-          <li>Create a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>: Repository access → <em>Only select repositories</em> → <strong>audiobook-data</strong> and <strong id="appRepoName">this app's repository</strong>. Permissions → <strong>Contents</strong> and <strong>Actions</strong>: Read and write. This token is your library key.</li>
+          <li>Create a <strong>private</strong> repository named <strong>audiobook-data_chatgpt</strong> (tick “Add a README file”).</li>
+          <li>Create a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>: Repository access → <em>Only select repositories</em> → <strong>audiobook-data_chatgpt</strong> and <strong id="appRepoName">this app's repository</strong>. Permissions → <strong>Contents</strong> and <strong>Actions</strong>: Read and write. This token is your library key.</li>
           <li>In this app's repository: Settings → Secrets and variables → Actions → New repository secret, name <strong>LIBRARY_KEY</strong>, value: the same key.</li>
           <li>Paste the key above. On your other devices, use “Add another device” in the app's settings.</li>
         </ol>
@@ -47,7 +43,7 @@
     <!-- Library -->
     <section id="library" class="screen narrow" hidden>
       <header class="lib-top">
-        <h1>Kokoro Reader</h1>
+        <h1>Kokoro Reader · ChatGPT</h1>
         <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙︎</button>
       </header>
 

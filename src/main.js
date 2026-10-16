@@ -7,6 +7,7 @@ import { formatTime, formatDuration } from "./format.js";
 import { estimateSeconds } from "./plan.js";
 import { MusicEngine, MOODS } from "./music.js";
 import { chapterMood } from "./mood.js";
+import { APP_NAME, repositoryDefaults } from "./config.js";
 
 const $ = (id) => document.getElementById(id);
 const el = new Proxy({}, { get: (_, id) => $(id) });
@@ -35,13 +36,7 @@ let spans = [];
 
 // ---------- connecting ----------
 
-// Repositories default to the ones this site is published from:
-// <owner>.github.io/<repo>/ -> app <owner>/<repo>, library <owner>/audiobook-data.
-function defaults() {
-  const owner = location.hostname.match(/^([\w-]+)\.github\.io$/)?.[1];
-  const repo = location.pathname.split("/").filter(Boolean)[0];
-  return owner && repo ? { appRepo: `${owner}/${repo}`, dataRepo: `${owner}/audiobook-data` } : { appRepo: "", dataRepo: "" };
-}
+const defaults = () => repositoryDefaults(location);
 
 // A link from "Add another device" carries the key in the #fragment, which
 // never leaves the browser.
@@ -250,7 +245,7 @@ async function showLibrary() {
   music.stop();
   book = null;
   clearInterval(bookTimer);
-  document.title = "Kokoro Reader";
+  document.title = APP_NAME;
   el.connect.hidden = true;
   el.bookScreen.hidden = true;
   el.library.hidden = false;
@@ -824,7 +819,7 @@ function updateMetadata() {
   navigator.mediaSession.metadata = new MediaMetadata({
     title: book.chapters[shownCh]?.title || book.title,
     artist: book.title,
-    album: "Kokoro Reader",
+    album: APP_NAME,
   });
 }
 
@@ -990,7 +985,7 @@ el.copyLinkBtn.addEventListener("click", async () => {
   }
   el.settingsMsg.hidden = false;
 });
-el.shareLinkBtn.addEventListener("click", () => navigator.share({ title: "Kokoro Reader", url: deviceLink() }).catch(() => {}));
+el.shareLinkBtn.addEventListener("click", () => navigator.share({ title: APP_NAME, url: deviceLink() }).catch(() => {}));
 
 el.disconnectBtn.addEventListener("click", () => {
   if (!confirm("Sign out on this device? Your library stays safe on the server.")) return;

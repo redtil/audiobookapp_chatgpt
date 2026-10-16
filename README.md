@@ -1,4 +1,13 @@
-# Kokoro Reader
+# Kokoro Reader · ChatGPT
+
+Independent continuation of [redtil/audiobookapp](https://github.com/redtil/audiobookapp), copied from commit `37fc945f9a93e2ce026bcbcb46b8dbc4bf1a83ff` with its Git history. Reference: [the original development session](https://claude.ai/code/session_0163x1TWhGmXYskekoSwuRj4).
+
+- App repository: `redtil/audiobookapp_chatgpt`
+- Site: `https://redtil.github.io/audiobookapp_chatgpt/`
+- Private library: `redtil/audiobook-data_chatgpt`
+- Device settings, saved text, and audio caches use a separate ChatGPT namespace.
+
+The new library starts empty. The original app's books, credentials, and preparation jobs are not copied.
 
 Turn a PDF or EPUB into an audiobook with a natural-sounding voice, and listen on your phone or laptop.
 
@@ -11,7 +20,7 @@ Turn a PDF or EPUB into an audiobook with a natural-sounding voice, and listen o
 Everything runs on GitHub, for free:
 
 - **The app** is a static site on GitHub Pages (this repository).
-- **The library** is a private repository, `audiobook-data`:
+- **The library** is a private repository, `audiobook-data_chatgpt`:
   - `library.json`: every book's status, position and finished state
   - `books/<id>.json`: each book's text, split into sentences
   - `audio/<id>/<part>` branches: one MP3 per chapter, plus the start time of each sentence
@@ -28,12 +37,14 @@ The app talks to both repositories with one fine-grained access token, the "libr
 
 ## One-time setup
 
-1. Create a **private** repository named `audiobook-data` (tick "Add a README file").
+1. Create a **private** repository named `audiobook-data_chatgpt` (tick "Add a README file").
 2. Create a [fine-grained token](https://github.com/settings/personal-access-tokens/new):
-   - Repository access → Only select repositories → `audiobook-data` and this app's repository
+   - Repository access → Only select repositories → `audiobook-data_chatgpt` and `audiobookapp_chatgpt`
    - Permissions → **Contents**: Read and write, **Actions**: Read and write
 3. In this repository: Settings → Secrets and variables → Actions → New repository secret, named `LIBRARY_KEY`, containing the token.
 4. Open the site and paste the token as your library key. On other devices, use ⚙︎ → "Copy link for another device".
+
+For publishing, set this app repository's Settings → Pages → Source to **GitHub Actions**. The included `pages.yml` workflow builds and deploys `main`; `prepare.yml` prepares books after `LIBRARY_KEY` is configured. Secrets are not transferred when copying a repository.
 
 ## Develop
 
@@ -41,7 +52,11 @@ The app talks to both repositories with one fine-grained access token, the "libr
     npm run dev                      # the app, at http://localhost:5173
     MOCK_VOICE=1 node server/prepare.mjs plan   # the server side (see the comments in server/prepare.mjs)
 
-Locally the app can't guess the repositories from its address, so fill them in under "Advanced" on the connect screen.
+Local development defaults to the ChatGPT repositories above. Override them under "Advanced" on the connect screen if needed. Use Node.js 22.12+ or a supported newer release.
+
+## Pending work from the reference session
+
+The session's final PDF parsing work was not in the copied commit. Its reported issues were spoken page numbers, running headers/footnotes, and line breaks splitting sentences in double-spaced PDFs. The proposed layout-aware parser and expressive narration controls still need implementation and validation. Existing emotion analysis controls the background music; it does not add emotion to the narrator's voice.
 
 ## Credits
 
